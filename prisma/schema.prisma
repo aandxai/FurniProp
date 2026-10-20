@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  BUYER
+  DEVELOPER
+  ADMIN
+}
+
+enum ProjectStatus {
+  DRAFT
+  SUBMITTED
+  PUBLISHED
+  PAUSED
+}
+
+model Organization {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String    @unique
+  users     User[]
+  projects  Project[]
+  createdAt DateTime  @default(now())
+}
+
+model User {
+  id           String       @id @default(uuid()) @db.Uuid
+  email        String       @unique
+  name         String
+  passwordHash String
+  role         Role         @default(BUYER)
+  isDemo       Boolean      @default(false)
+  organizationId String?    @db.Uuid
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  sessions     Session[]
+  favorites    Favorite[]
+  inquiries    Inquiry[]
+  createdAt    DateTime     @default(now())
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  tokenHash String   @unique
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([userId])
+}
+
+model Project {
+  id            String        @id @default(uuid()) @db.Uuid
+  slug          String        @unique
+  name          String
+  city          String
+  locality      String
+  address       String
+  description   String        @db.Text
+  status        ProjectStatus @default(DRAFT)
+  organizationId String       @db.Uuid
+  organization  Organization  @relation(fields: [organizationId], references: [id])
+  image         String?
+  imageLabel    String?
+  mediaSource   String?
+  reraNumber    String?
+  possession    String?
+  amenities     String[]
+  isDemo        Boolean       @default(false)
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  unitTypes     UnitType[]
+  favorites     Favorite[]
+  inquiries     Inquiry[]
+  @@index([status, city])
+  @@index([organizationId, status])
+}
+
+model UnitType {
+  id             String             @id @default(uuid()) @db.Uuid
+  projectId      String             @db.Uuid
+  project        Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  slug           String
+  name           String
+  bhk            Int
+  carpetAreaSqft Int
+  basePricePaise BigInt
+  availableUnits Int                @default(0)
+  packages       FurnishingPackage[]
+  @@unique([projectId, slug])
+  @@index([bhk])
+}
+
+model FurnishingPackage {
+  id             String   @id @default(uuid()) @db.Uuid
+  unitTypeId     String   @db.Uuid
+  unitType       UnitType @relation(fields: [unitTypeId], references: [id], onDelete: Cascade)
+  name           String
+  tier           String
+  version        Int      @default(1)
+  pricePaise     BigInt
+  inclusions     String[]
+  previewImage   String?
+  previewLabel   String?
+  approved       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  @@unique([unitTypeId, name, version])
+}
+
+model Favorite {
+  userId    String  @db.Uuid
+  projectId String  @db.Uuid
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@id([userId, projectId])
+}
+
+model Inquiry {
+  id        String   @id @default(uuid()) @db.Uuid
+  projectId String   @db.Uuid
+  project   Project  @relation(fields: [projectId], references: [id])
+  userId    String?  @db.Uuid
+  user      User?    @relation(fields: [userId], references: [id])
+  name      String
+  email     String
+  phone     String
+  message   String?
+  consentAt DateTime
+  createdAt DateTime @default(now())
+  @@index([projectId, createdAt])
+}

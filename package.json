@@ -1,0 +1,49 @@
+{
+  "name": "furniprop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit --incremental false",
+    "lint": "eslint .",
+    "test": "node --env-file-if-exists=.env.local ./node_modules/vitest/vitest.mjs run",
+    "test:e2e": "node --env-file-if-exists=.env.local ./node_modules/@playwright/test/cli.js test",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "6.19.0",
+    "@prisma/client": "6.19.0",
+    "bcryptjs": "2.4.3",
+    "lucide-react": "0.468.0",
+    "next": "16.4.2",
+    "pg": "8.16.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@tailwindcss/postcss": "4.1.8",
+    "@types/bcryptjs": "2.4.6",
+    "@types/node": "22.15.30",
+    "@types/pg": "8.15.4",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "@typescript-eslint/eslint-plugin": "8.33.1",
+    "@typescript-eslint/parser": "8.33.1",
+    "eslint": "9.28.0",
+    "eslint-config-next": "16.4.2",
+    "prisma": "6.19.0",
+    "tailwindcss": "4.1.8",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3",
+    "vitest": "3.2.2"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
