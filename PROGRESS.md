@@ -7,6 +7,7 @@
 - M1 operations slice: organization-scoped developer projects and leads, draft unit/package creation, submission and validated DEMO admin publishing. Direct cross-organization project access returns 404.
 - Early M2 slice: dedicated image variant visualizer, approved package switching and authoritative server estimate in integer paise. Distinct images are mapped to approved packages.
 - Validation: lint, typecheck, 5 database/service tests, production build, 5 Chromium browser tests, and local HTTP smoke requests pass.
+- GitHub Pages preview: a static public demo at `aandxai.github.io/FurniProp/` with listings, search, project details, image/package switching and browser-local buyer/developer/admin walkthroughs. The Pages preview has no server, real authentication, database or messaging.
 
 ## Pending for the full P0 MVP
 
@@ -25,4 +26,4 @@
 
 ## Run commands
 
-`npm ci`, `bash scripts/setup-local.sh`, `npm run dev`; then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm run test:e2e`. See [README.md](README.md) for prerequisites and details.
+`npm ci`, `bash scripts/setup-local.sh`, `npm run dev`; then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm run test:e2e`, `npm run test:pages`. See [README.md](README.md) for prerequisites and details.

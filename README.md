@@ -2,6 +2,12 @@
 
 A working **fictional DEMO** of a fully furnished property marketplace, built from [FURNIPROP_PRD_CODEX.md](FURNIPROP_PRD_CODEX.md). It includes a buyer discovery flow, an image variant package preview with server-calculated indicative pricing, and role-scoped developer/admin pages. It is not a live property portal.
 
+## GitHub Pages preview
+
+The public preview is at **https://aandxai.github.io/FurniProp/**. GitHub Pages serves the static files in [`docs/`](docs/); a root `index.html` also supports repositories configured to publish from the root of `main`. Pushes to `main` update the site through the repository's Pages branch publishing setting.
+
+The Pages preview includes fictional listings, search and filters, project details, package switching with indicative prices, saved homes, inquiry previews, and buyer/developer/admin walkthroughs. Demo changes stay in the current browser's local storage. Contact details entered in the inquiry preview are discarded; no inquiry is sent. The role switcher is a walkthrough, not authentication. GitHub Pages cannot run the Next.js server actions, PostgreSQL database, private accounts, or server pricing API. Use the local/Codespaces app below for those server-backed development flows. Production use needs a deployed application server and database.
+
 ## Run locally
 
 Requires Node.js 20.9+ and Docker. PostgreSQL 17 runs in a local container and stores its data under ignored `.local/` files. No external provider credentials are needed for DEMO mode.
@@ -26,6 +32,7 @@ npm run typecheck
 npm test
 npm run build
 npm run test:e2e
+npm run test:pages
 ```
 
 The browser tests use system Chromium when `/usr/bin/chromium` is present. Otherwise install Playwright Chromium (`npx playwright install chromium`) or set `CHROMIUM_PATH` to a local Chromium executable. The browser suite starts its own development server when one is not already running.

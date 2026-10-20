@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test": "node --env-file-if-exists=.env.local ./node_modules/vitest/vitest.mjs run",
     "test:e2e": "node --env-file-if-exists=.env.local ./node_modules/@playwright/test/cli.js test",
+    "test:pages": "node scripts/test-pages.mjs",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts"
